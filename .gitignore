@@ -101,4 +101,4 @@ ENV/
 .mypy_cache/
 
 # Personal
-bot/config.py
+config.py
