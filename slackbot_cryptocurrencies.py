@@ -22,25 +22,26 @@ def createMessage():
 
 	return message
 
-if sc.rtm_connect():
-    while True:
-        resp = sc.rtm_read()
+def main_program():
+	if sc.rtm_connect():
+	    while True:
+        	resp = sc.rtm_read()
         
-        if len(resp)>0:
-        	resp=resp[0]
-        	#print(resp)
+	        if len(resp)>0:
+        		resp=resp[0]
+        		#print(resp)
         	
-        	if 'type' in resp:
+        		if 'type' in resp:
 	        	
-	        	if resp['type']=='desktop_notification' and resp['content'].find('@blockbot'):
+	        		if resp['type']=='desktop_notification' and resp['content'].find('@blockbot'):
 	        		
-	        		msg=createMessage()
-	        		sc.rtm_send_message(resp['channel'], msg)
-	        		# resp = (sc.rtm_read())[0]
+	        			msg=createMessage()
+		        		sc.rtm_send_message(resp['channel'], msg)
+		        		# resp = (sc.rtm_read())[0]
 	        		
-	        		# while resp['ok'] is not True:
-	        		# 	sc.rtm_send_message(resp['channel'], msg)
-	        		# 	resp = (sc.rtm_read())[0]
-        time.sleep(1)
-else:
-    print("Connection Failed, invalid token?")
+	        			# while resp['ok'] is not True:
+	        			# 	sc.rtm_send_message(resp['channel'], msg)
+	        			# 	resp = (sc.rtm_read())[0]
+	        time.sleep(1)
+	else:
+	    print("Connection Failed, invalid token?")
