@@ -17,7 +17,7 @@ vul=['encul', 'fdp', 'ntm', 'fuck']
 
 def getChans():
 	chans=dict()
-	f=open('chans.txt', 'r')
+	f=open(os.path.join(os.path.dirname(__file__),'chans.txt'), 'r')
 	l=f.readline()
 	
 	while l:
