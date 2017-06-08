@@ -6,5 +6,5 @@ if __name__ == '__main__':
 	here = os.path.dirname(os.path.abspath(__file__))
 	out = open('/tmp/LogDaemonSlackBot.log', 'w+')
 	
-	with daemon.DaemonContext():
+	with daemon.DaemonContext(here, out):
 		main_program()
