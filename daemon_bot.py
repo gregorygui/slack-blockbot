@@ -1,4 +1,4 @@
-import daemon
+import daemon, os
 
 from slackbot_cryptocurrencies import main_program
 
