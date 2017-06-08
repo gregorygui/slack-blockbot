@@ -18,10 +18,9 @@ vul=['encul', 'fdp', 'ntm', 'fuck']
 def getChans():
 	chans=dict()
 	try:
-		f=open(os.path.join(os.getcwd(),'chans.txt'), 'r')
-		print(os.getcwd())
+		f=open('chans.txt', 'r')
 	except Exception as e:
-		raise e
+		print(e)
 	
 	l=f.readline()
 	
