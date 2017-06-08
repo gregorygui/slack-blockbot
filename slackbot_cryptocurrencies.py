@@ -55,7 +55,7 @@ def getChans():
 	while l:
 		try:
 			v=l.split(':')
-			chans[v[0]]=v[1]
+			chans[v[0]]=((v[1]).split('\n'))[0]
 			l=f.readline()
 		except Exception as e:
 			print(e)
@@ -157,7 +157,7 @@ def word_analyze(resp):
 
 def handle_message(resp, chans):
 	in_chan=0
-
+	#print(chans)
 	for k in chans:
 		if resp['channel']==chans[k]:
 			in_chan=1
