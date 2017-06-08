@@ -65,10 +65,10 @@ def getChans():
 
 	return chans
 
-def createMessage():
+def createMessage(currency):
+	
 	message="Server Time: "+kraken.getTime()+"\n\n"
-	currency=[kraken.getBitcoin(), kraken.getEther()]
-
+		
 	for c in currency:
 		pct=(c['high']/c['low'])-1
 		message += "*" + c['symbol'] + "* (" + str(c['nb']) + " trades today)" + "\tH: " + str(c['high']) + "€; L: " + str(c['low']) + "€; "
@@ -83,8 +83,12 @@ def message_help():
 	msg+="\nWhat can I understand for the moment:\n"
 	msg+="\n\t- *hey/hello*: welcome message"
 	msg+="\n\t- *help*: print this little help"
-	msg+="\n\t- *time*: print Time Server"
+	msg+="\n\t- *time*: print Kraken Time Server"
 	msg+="\n\t- *@blockbot* (only): print market informations about Bitcoin and Ehter"
+	msg+="\n\t- *currency1 currency2*: print market informations about 2 submitted currencies"
+	msg+="\n\t\t+ Available Currencies: EUR, USD, CAD, JPY, GBP"
+	msg+="\n\t\t+ Available Crypto-Currencies: ETC, ETH, LTC, REP, RPZ, XBT, XLM, XMR, XRP, ZEC"
+	msg+="\n\nThanks to https://kraken.com"
 
 	return msg
 
@@ -95,7 +99,8 @@ def message_hello():
 	return "Hey, *Welcome* to the *Blockchain Jungle* !"
 
 def message_vulg():
-	return "Fais le malin aujourd'hui, tu le feras moins demain quand je serai *millionaire*."
+	return "Fais le malin aujourd'hui, tu le feras moins demain quand je serai *millionaire*. :heart:"
+
 
 def word_analyze(resp):
 	msg=""
@@ -108,18 +113,35 @@ def word_analyze(resp):
 			words=words[1:] 
 
 	if len(words)==0:
-		msg=createMessage()
+		
+		msg=createMessage([kraken.getBitcoin(), kraken.getEther()])
+	
+	elif len(words)==2 and ("help" not in words[0]):
+		
+		info = kraken.getCurrency(words[0],words[1])
+		
+		if info:
+			msg=createMessage([info])
+		
+		else:
+			msg="Sorry but I don't know one of submitted currencies..."
+	
 	else:
+		
 		for w in words:
+			
 			if 'help' in w.lower():
 				msg=message_help()
 				break
+			
 			elif 'hey' in w.lower():
 				msg=message_hello()
 				break
+			
 			elif 'hello' in w.lower():
 				msg=message_hello()
 				break
+			
 			elif 'time' in w.lower():
 				msg=message_time()
 				break
