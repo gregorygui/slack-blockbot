@@ -13,9 +13,19 @@ kraken=KrakenPublic()
 botID='U5KN0GHCM'
 botname='blockbot'
 
-vul=['encule', 'fdp', 'ntm', 'fuck']
+vul=['encul', 'fdp', 'ntm', 'fuck']
 
-chans={'testbots':'G5K9U1UBT'}
+def getChans():
+	chans=dict()
+	f=open('chans.txt', 'r')
+	l=f.readline()
+	
+	while l:
+		v=l.split(':')
+		chans[v[0]]=v[1]
+		l=f.readline()
+
+	return chans
 
 def createMessage():
 	message="Server Time: "+kraken.getTime()+"\n\n"
@@ -87,6 +97,7 @@ def word_analyze(resp):
 
 def handle_message(resp):
 	in_chan=0
+	chans=getChans()
 
 	for k in chans:
 		if resp['channel']==chans[k]:
@@ -102,7 +113,6 @@ def handle_response(resp):
 		if resp['type']=='error':
 			sc.rtm_send_message('G5K9U1UBT', (resp['error'])['msg'])
 		
-		#elif resp['type']=='desktop_notification' and resp['content'].find('@'+botname):
 		elif (resp['type']=='message') and (('text' and 'channel') in resp):
 			if 'reply_to' not in resp:
 				print(resp)
