@@ -70,7 +70,7 @@ class KrakenPublic:
 
 def main():
 	k=KrakenPublic()
-	print(k.getEther())
+	print(k.getBitcoin())
 
 if __name__ == '__main__':
 	main()

@@ -88,7 +88,7 @@ def message_help():
 	msg+="\n\t- *currency1 currency2*: print market informations about 2 submitted currencies"
 	msg+="\n\t\t+ Available Currencies: EUR, USD, CAD, JPY, GBP"
 	msg+="\n\t\t+ Available Crypto-Currencies: ETC, ETH, LTC, REP, RPZ, XBT, XLM, XMR, XRP, ZEC"
-	msg+="\n\nThanks to https://kraken.com"
+	msg+="\n\nThanks to Kraken"
 
 	return msg
 
@@ -113,8 +113,9 @@ def word_analyze(resp):
 			words=words[1:] 
 
 	if len(words)==0:
-		
-		msg=createMessage([kraken.getBitcoin(), kraken.getEther()])
+		info=[kraken.getBitcoin(), kraken.getEther()]
+		print(info)
+		msg=createMessage(info)
 	
 	elif len(words)==2 and ("help" not in words[0]):
 		
@@ -177,8 +178,8 @@ def handle_response(resp):
 			sc.rtm_send_message(chans['testbots'], (resp['error'])['msg'])
 		
 		elif (resp['type']=='message') and (('text' and 'channel') in resp):
-			if 'reply_to' not in resp:
-				#print(resp)
+			if ('reply_to' not in resp) and ('is_ephemeral' not in resp):
+				print(resp)
 				handle_message(resp, chans)	
 
 def main_program():
