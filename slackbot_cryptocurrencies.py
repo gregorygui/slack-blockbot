@@ -10,8 +10,36 @@ sc = SlackClient(slack_token)
 
 kraken=KrakenPublic()
 
-botID='U5KN0GHCM'
-botname='blockbot'
+def getBotID(path):
+	try:
+		f=open(os.path.join(path, 'bot.config'), 'r')
+	except Exception as e:
+		print(e)
+	
+	try:
+		l=f.readline()
+		f.close()
+		#print((l.split(':'))[1])
+		return (l.split(':'))[1]
+	except Exception as e:
+		print(e)
+
+def getBotName(path):
+	try:
+		f=open(os.path.join(path, 'bot.config'), 'r')
+	except Exception as e:
+		print(e)
+	
+	try:
+		l=f.readline()
+		f.close()
+		#print((l.split(':'))[0])
+		return (l.split(':'))[0]
+	except Exception as e:
+		print(e)
+
+botID=getBotID(os.getcwd())
+botname=getBotName(os.getcwd())
 
 vul=['encul', 'fdp', 'ntm', 'fuck']
 
@@ -25,9 +53,15 @@ def getChans():
 	l=f.readline()
 	
 	while l:
-		v=l.split(':')
-		chans[v[0]]=v[1]
-		l=f.readline()
+		try:
+			v=l.split(':')
+			chans[v[0]]=v[1]
+			l=f.readline()
+		except Exception as e:
+			print(e)
+			break
+
+	f.close()
 
 	return chans
 
@@ -99,9 +133,8 @@ def word_analyze(resp):
 	else:
 		sc.rtm_send_message(resp['channel'],"Sorry, I can't understand ~yet~")
 
-def handle_message(resp):
+def handle_message(resp, chans):
 	in_chan=0
-	chans=getChans()
 
 	for k in chans:
 		if resp['channel']==chans[k]:
@@ -109,18 +142,22 @@ def handle_message(resp):
 
 	if in_chan and (('<@'+botID+'>') in (resp['text']).split()):
 		word_analyze(resp)
+		print("Query in channel "+chans[k]+" by "+resp['user']+": \'"+resp['text']+"\'")
 	elif not in_chan:
 		word_analyze(resp)
+		print("Query direct "+chans[k]+" by "+resp['user']+": \'"+resp['text']+"\'")
 
 def handle_response(resp):
+	chans=getChans()
+
 	if 'type' in resp:
 		if resp['type']=='error':
-			sc.rtm_send_message('G5K9U1UBT', (resp['error'])['msg'])
+			sc.rtm_send_message(chans['testbots'], (resp['error'])['msg'])
 		
 		elif (resp['type']=='message') and (('text' and 'channel') in resp):
 			if 'reply_to' not in resp:
-				print(resp)
-				handle_message(resp)
+				#print(resp)
+				handle_message(resp, chans)	
 
 def main_program():
 	if sc.rtm_connect():
