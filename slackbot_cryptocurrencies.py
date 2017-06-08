@@ -19,7 +19,7 @@ def getChans():
 	chans=dict()
 	try:
 		f=open('chans.txt', 'r')
-		print(os.path.relpath(__file__))
+		print(os.getcwd())
 	except Exception as e:
 		raise e
 	
