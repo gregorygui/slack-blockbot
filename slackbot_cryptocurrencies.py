@@ -110,11 +110,10 @@ def word_analyze(resp):
 		if len(words)==1:
 			words=[]
 		else:
-			words=words[1:] 
+			words=words[1:]
 
 	if len(words)==0:
 		info=[kraken.getBitcoin(), kraken.getEther()]
-		print(info)
 		msg=createMessage(info)
 	
 	elif len(words)==2 and ("help" not in words[0]):
@@ -165,10 +164,11 @@ def handle_message(resp, chans):
 
 	if in_chan and (('<@'+botID+'>') in (resp['text']).split()):
 		word_analyze(resp)
-		print("Query in channel "+chans[k]+" by "+resp['user']+": \'"+resp['text']+"\'")
+		print("Query in channel "+chans[k]+" by "+resp['user']+": "+resp['text'])
+	
 	elif not in_chan:
 		word_analyze(resp)
-		print("Query direct "+chans[k]+" by "+resp['user']+": \'"+resp['text']+"\'")
+		print("Query direct "+chans[k]+" by "+resp['user']+": "+resp['text'])
 
 def handle_response(resp):
 	chans=getChans()
@@ -179,7 +179,7 @@ def handle_response(resp):
 		
 		elif (resp['type']=='message') and (('text' and 'channel') in resp):
 			if ('reply_to' not in resp) and ('is_ephemeral' not in resp):
-				print(resp)
+				#print(resp)
 				handle_message(resp, chans)	
 
 def main_program():
