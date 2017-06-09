@@ -19,6 +19,7 @@ def getBotID(path):
 	try:
 		l=f.readline()
 		f.close()
+		l=(l.split('\n'))[0]
 		#print((l.split(':'))[1])
 		return (l.split(':'))[1]
 	except Exception as e:
@@ -161,8 +162,8 @@ def handle_message(resp, chans):
 	for k in chans:
 		if resp['channel']==chans[k]:
 			in_chan=1
-
-	if in_chan and (('<@'+botID+'>') in (resp['text']).split()):
+	
+	if in_chan and (('<@'+botID+'>') in resp['text']):
 		word_analyze(resp)
 		print("Query in channel "+chans[k]+" by "+resp['user']+": "+resp['text'])
 	
