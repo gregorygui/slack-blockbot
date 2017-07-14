@@ -105,4 +105,4 @@ config.py
 chans.txt
 bot.config
 **/.idea/
-config.yaml
+config.yml

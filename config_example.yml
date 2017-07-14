@@ -1,0 +1,11 @@
+ #Define the slack API token to get access
+SLACK_API_TOKEN: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXxxx
+
+ #Define the blockbot name and id to identify when someone speaks with it
+bot:
+ name: bot
+ id: IDBOT1
+
+ #Define chans and id chans where it can answers
+chans:
+ chan1: ID_CHAN_1

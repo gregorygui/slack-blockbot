@@ -1,70 +1,20 @@
-import os
 import time
+import yaml
 
 from slackclient import SlackClient
-
 from KrakenAPI import KrakenPublic
 
-slack_token = os.environ["SLACK_API_TOKEN"]
+config = yaml.load(open('config.yml', 'r'))
+
+slack_token = config['SLACK_API_TOKEN']
 sc = SlackClient(slack_token)
 
 kraken=KrakenPublic()
 
-def getBotID(path):
-	try:
-		f=open(os.path.join(path, 'bot.config'), 'r')
-	except Exception as e:
-		print(e)
-	
-	try:
-		l=f.readline()
-		f.close()
-		l=(l.split('\n'))[0]
-		#print((l.split(':'))[1])
-		return (l.split(':'))[1]
-	except Exception as e:
-		print(e)
-
-def getBotName(path):
-	try:
-		f=open(os.path.join(path, 'bot.config'), 'r')
-	except Exception as e:
-		print(e)
-	
-	try:
-		l=f.readline()
-		f.close()
-		#print((l.split(':'))[0])
-		return (l.split(':'))[0]
-	except Exception as e:
-		print(e)
-
-botID=getBotID(os.getcwd())
-botname=getBotName(os.getcwd())
+botID=(config['bot'])['id']
+botname=(config['bot'])['name']
 
 vul=['encul', 'fdp', 'ntm', 'fuck']
-
-def getChans():
-	chans=dict()
-	try:
-		f=open('chans.txt', 'r')
-	except Exception as e:
-		print(e)
-	
-	l=f.readline()
-	
-	while l:
-		try:
-			v=l.split(':')
-			chans[v[0]]=((v[1]).split('\n'))[0]
-			l=f.readline()
-		except Exception as e:
-			print(e)
-			break
-
-	f.close()
-
-	return chans
 
 def createMessage(currency):
 	
@@ -172,7 +122,7 @@ def handle_message(resp, chans):
 		print("Query direct "+chans[k]+" by "+resp['user']+": "+resp['text'])
 
 def handle_response(resp):
-	chans=getChans()
+	chans=(config['chans'])
 
 	if 'type' in resp:
 		if resp['type']=='error':
