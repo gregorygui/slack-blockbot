@@ -112,14 +112,16 @@ def handle_message(resp, chans):
 	for k in chans:
 		if resp['channel']==chans[k]:
 			in_chan=1
+	try:	
+		if in_chan and (('<@'+botID+'>') in resp['text']):
+			word_analyze(resp)
+			print("Query in channel "+chans[k]+" by "+resp['user']+": "+resp['text'])
 	
-	if in_chan and (('<@'+botID+'>') in resp['text']):
-		word_analyze(resp)
-		print("Query in channel "+chans[k]+" by "+resp['user']+": "+resp['text'])
-	
-	elif not in_chan:
-		word_analyze(resp)
-		print("Query direct "+chans[k]+" by "+resp['user']+": "+resp['text'])
+		elif not in_chan:
+			word_analyze(resp)
+			print("Query direct "+chans[k]+" by "+resp['user']+": "+resp['text'])
+	except:
+		print("Not concerned !")
 
 def handle_response(resp):
 	chans=(config['chans'])

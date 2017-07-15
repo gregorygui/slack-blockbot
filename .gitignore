@@ -106,3 +106,5 @@ chans.txt
 bot.config
 **/.idea/
 config.yml
+**/logs*
+launch.sh
